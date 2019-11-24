@@ -16,7 +16,7 @@ router.get("/:id", catController.cat_get);
 
 router.post("/", upload.single("cat"), catController.cat_create_post);
 
-router.put("/", catController.cat_update.put);
+router.put("/", catController.cat_update_put);
 
 router.delete("/:id", catController.cat_delete);
 

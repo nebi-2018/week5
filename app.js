@@ -10,8 +10,6 @@ const port = 3000;
 
 app.use(cors());
 
-
-
 const catRoute = require("./routes/catRoute");
 
 const userRoute = require("./routes/userRoute");

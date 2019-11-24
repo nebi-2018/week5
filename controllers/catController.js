@@ -67,5 +67,9 @@ module.exports = {
 
   cat_create_post,
 
-  cat_get
+  cat_get,
+
+  cat_update_put,
+
+  cat_delete
 };
