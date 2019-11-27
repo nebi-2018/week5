@@ -2,6 +2,10 @@
 
 const catModel = require("../models/catModel");
 
+const resize = require("../utils/resize");
+
+const imageMeta = require("../utils/imageMeta");
+
 // const cats = catModel.cats;
 
 const cat_list_get = async (req, res) => {
@@ -11,40 +15,48 @@ const cat_list_get = async (req, res) => {
 };
 
 const cat_create_post = async (req, res) => {
-  const params = [
-    req.body.name,
+  try {
+    // create thumbnail
 
-    req.body.age,
+    await resize.makeThumbnail(
+      req.file.path,
 
-    req.body.weight,
+      "thumbnails/" + req.file.filename,
 
-    req.body.owner,
+      { width: 160, height: 160 }
+    );
 
-    req.file.filename
-  ];
+    // get coordinates
 
-  const response = await catModel.addCat(params);
+    const coords = await imageMeta.getCoordinates(req.file.path);
 
-  await res.json(response);
+    console.log("coords", coords);
+
+    const params = [
+      req.body.name,
+
+      req.body.age,
+
+      req.body.weight,
+
+      req.body.owner,
+
+      req.file.filename,
+
+      coords
+    ];
+
+    const response = await catModel.addCat(params);
+
+    await res.json(response);
+
+    // await res.json(params);
+  } catch (e) {
+    console.log("exif error", e);
+
+    res.status(400).json({ message: "error" });
+  }
 };
-
-const cat_update_put = async (req, res) => {
-  const params = [
-    req.body.name,
-
-    req.body.age,
-
-    req.body.weight,
-
-    req.body.owner,
-
-  ];
-
-  const response = await catModel.updateCat(params);
-
-  await res.json(response);
-};
-
 
 const cat_get = async (req, res) => {
   const params = [req.params.id];
@@ -54,22 +66,10 @@ const cat_get = async (req, res) => {
   await res.json(cat[0]);
 };
 
-const cat_delete = async (req, res) => {
-  const params = [req.params.id];
-
-  const cat = await catModel.deleteCat(params);
-
-  await res.json(cat[0]);
-};
-
 module.exports = {
   cat_list_get,
 
   cat_create_post,
 
-  cat_get,
-
-  cat_update_put,
-
-  cat_delete
+  cat_get
 };

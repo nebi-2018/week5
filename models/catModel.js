@@ -37,7 +37,7 @@ const getCat = async params => {
 const addCat = async params => {
   try {
     const [rows] = await promisePool.execute(
-      "INSERT INTO wop_cat (name, age, weight, owner, filename) VALUES (?, ?, ?, ?, ?);",
+      "INSERT INTO wop_cat (name, age, weight, owner, filename, coords) VALUES (?, ?, ?, ?, ?, ?);",
 
       params
     );
@@ -48,38 +48,6 @@ const addCat = async params => {
 
     return { error: "error in database query" };
   }
-};
-
-const updateCat = async params => {
-  try {
-    const [rows] = await promisePool.execute(
-      "UPDATE INTO wop_cat (name, age, weight, owner) VALUES (?, ?, ?, ?, ?);",
-
-      params
-    );
-
-    return rows;
-  } catch (e) {
-    console.log("error", e.message);
-
-    return { error: "error in database query" };
-  }
-};
-
-const deleteCat = async params => {
-    try {
-      const [rows] = await promisePool.execute(
-        "DELETE * FROM wop_cat WHERE cat_id = ?;",
-
-        params
-      );
-
-      return rows;
-    } catch (e) {
-      console.log("error", e.message);
-
-      return { error: "error in database query" };
-    }
 };
 
 module.exports = {
@@ -87,9 +55,5 @@ module.exports = {
 
   getCat,
 
-  addCat,
-
-  updateCat,
-
-  deleteCat
+  addCat
 };
