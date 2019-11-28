@@ -26,10 +26,34 @@ const user_create_post = async (req, res) => {
   await res.json(user);
 };
 
+const user_update_put = async (req, res) => {
+  const params = [req.body.name, req.body.password, req.body.id];
+
+  console.log("update", params);
+
+  const user = await userModel.updateUser(params);
+
+  await res.json(user);
+};
+
+const user_delete = async (req, res) => {
+  const params = [req.params.id];
+
+  console.log("delete", params);
+
+  const cat = await userModel.deleteUser(params);
+
+  await res.json(cat);
+};
+
 module.exports = {
   user_list_get,
 
   user_get,
 
-  user_create_post
+  user_create_post,
+
+  user_update_put,
+
+  user_delete
 };

@@ -28,6 +28,14 @@ const cat_create_post = async (req, res) => {
   await res.json(response);
 };
 
+const cat_get = async (req, res) => {
+  const params = [req.params.id];
+
+  const cat = await catModel.getCat(params);
+
+  await res.json(cat[0]);
+};
+
 const cat_update_put = async (req, res) => {
   const params = [
     req.body.name,
@@ -38,28 +46,24 @@ const cat_update_put = async (req, res) => {
 
     req.body.owner,
 
+    req.body.id
   ];
 
-  const response = await catModel.updateCat(params);
+  console.log("update", params);
 
-  await res.json(response);
-};
+  const user = await catModel.updateCat(params);
 
-
-const cat_get = async (req, res) => {
-  const params = [req.params.id];
-
-  const cat = await catModel.getCat(params);
-
-  await res.json(cat[0]);
+  await res.json(user);
 };
 
 const cat_delete = async (req, res) => {
   const params = [req.params.id];
 
+  console.log("delete", params);
+
   const cat = await catModel.deleteCat(params);
 
-  await res.json(cat[0]);
+  await res.json(cat);
 };
 
 module.exports = {

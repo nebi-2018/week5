@@ -48,6 +48,34 @@ const addUser = async params => {
   }
 };
 
+const updateUser = async params => {
+  try {
+    const [rows] = await promisePool.execute(
+      "UPDATE wop_user SET name = ?, password = ? WHERE user_id = ?;",
+
+      params
+    );
+
+    return rows;
+  } catch (e) {
+    console.log("error", e.message);
+  }
+};
+
+const deleteUser = async params => {
+  try {
+    const [rows] = await promisePool.execute(
+      "DELETE FROM wop_user WHERE cat_id = ?;",
+
+      params
+    );
+
+    return rows;
+  } catch (e) {
+    console.log("error", e.message);
+  }
+};
+
 module.exports = {
   getAllUsers,
 
