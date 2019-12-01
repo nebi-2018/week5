@@ -2,10 +2,6 @@
 
 const catModel = require("../models/catModel");
 
-const resize = require("../utils/resize");
-
-const imageMeta = require("../utils/imageMeta");
-
 // const cats = catModel.cats;
 
 const cat_list_get = async (req, res) => {
@@ -15,22 +11,22 @@ const cat_list_get = async (req, res) => {
 };
 
 const cat_create_post = async (req, res) => {
-  try {
-    // create thumbnail
+  const params = [
+    req.body.name,
 
-    await resize.makeThumbnail(
-      req.file.path,
+    req.body.age,
 
-      "thumbnails/" + req.file.filename,
+    req.body.weight,
 
-      { width: 160, height: 160 }
-    );
+    req.body.owner,
 
-    // get coordinates
+    req.file.filename
+  ];
 
-    const coords = await imageMeta.getCoordinates(req.file.path);
+  const response = await catModel.addCat(params);
 
-    console.log("coords", coords);
+  await res.json(response);
+};
 
 const cat_get = async (req, res) => {
   const params = [req.params.id];
@@ -44,11 +40,11 @@ const cat_update_put = async (req, res) => {
   const params = [
     req.body.name,
 
-      req.body.age,
+    req.body.age,
 
-      req.body.weight,
+    req.body.weight,
 
-      req.body.owner,
+    req.body.owner,
 
     req.body.id
   ];
@@ -60,7 +56,7 @@ const cat_update_put = async (req, res) => {
   await res.json(user);
 };
 
-const cat_get = async (req, res) => {
+const cat_delete = async (req, res) => {
   const params = [req.params.id];
 
   console.log("delete", params);
@@ -75,5 +71,9 @@ module.exports = {
 
   cat_create_post,
 
-  cat_get
+  cat_get,
+
+  cat_update_put,
+
+  cat_delete
 };
