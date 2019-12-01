@@ -118,3 +118,5 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+# ignore folder named thumbnails
+.thumbnails/
