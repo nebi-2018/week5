@@ -24,7 +24,7 @@ const createCatCards = cats => {
 
     const img = document.createElement("img");
 
-    img.src = url + "/" + cat.filename;
+    img.src = url + "/thumbnails/" + cat.filename;
 
     img.alt = cat.name;
 
